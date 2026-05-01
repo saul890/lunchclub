@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lunch Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --black:#111;
+  --mid:#666;
+  --light:#aaa;
+  --border:#e8e8e8;
+  --bg:#fafaf8;
+  --green:#2d5a32;
+  --green-bg:#f0f4f0;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--black);
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.2rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  letter-spacing:0.01em;
+  color:var(--black);
+}
+
+.nav-cta{
+  font-size:0.75rem;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--black);
+  text-decoration:none;
+  border-bottom:1px solid var(--black);
+  padding-bottom:1px;
+  transition:opacity 0.2s;
+}
+.nav-cta:hover{opacity:0.4;}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  padding:10rem 4rem 6rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  max-width:900px;
+}
+
+.hero-label{
+  font-size:0.72rem;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--mid);
+  margin-bottom:2rem;
+}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:400;
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  color:var(--black);
+  margin-bottom:2rem;
+}
+
+h1 em{
+  font-style:italic;
+  color:var(--green);
+}
+
+.hero-sub{
+  font-size:1.05rem;
+  color:var(--mid);
+  line-height:1.8;
+  font-weight:300;
+  max-width:500px;
+  margin-bottom:3rem;
+}
+
+.hero-btns{
+  display:flex;
+  align-items:center;
+  gap:2rem;
+}
+
+.btn-primary{
+  font-size:0.78rem;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  background:var(--black);
+  color:white;
+  padding:0.9rem 2.2rem;
+  border-radius:100px;
+  text-decoration:none;
+  transition:opacity 0.2s;
+  display:inline-block;
+}
+.btn-primary:hover{opacity:0.7;}
+
+.btn-link{
+  font-size:0.78rem;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--mid);
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.btn-link:hover{color:var(--black);}
+
+/* DIVIDER */
+.divider{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:0 4rem;
+}
+
+/* HOW IT WORKS */
+.how-section{
+  padding:7rem 4rem;
+}
+
+.section-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:4rem;
+  border-bottom:1px solid var(--border);
+  padding-bottom:1.5rem;
+}
+
+.section-label{
+  font-size:0.72rem;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--mid);
+}
+
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:400;
+  letter-spacing:-0.02em;
+  color:var(--black);
+  line-height:1.2;
+}
+
+.how-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+
+.how-card{
+  padding:2.5rem 2.5rem 2.5rem 0;
+  border-right:1px solid var(--border);
+}
+.how-card:last-child{
+  border-right:none;
+  padding-right:0;
+  padding-left:2.5rem;
+}
+.how-card:nth-child(2){
+  padding-left:2.5rem;
+}
+
+.how-num{
+  font-family:'Playfair Display',serif;
+  font-size:0.85rem;
+  font-weight:400;
+  color:var(--light);
+  margin-bottom:1.5rem;
+  font-style:italic;
+}
+
+.how-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;
+  font-weight:400;
+  color:var(--black);
+  margin-bottom:0.8rem;
+  line-height:1.3;
+}
+
+.how-card p{
+  font-size:0.88rem;
+  color:var(--mid);
+  line-height:1.75;
+  font-weight:300;
+}
+
+/* DARK BAND */
+.dark-band{
+  background:var(--black);
+  padding:7rem 4rem;
+}
+
+.dark-band .section-header{
+  border-color:rgba(255,255,255,0.1);
+}
+.dark-band .section-label{color:rgba(255,255,255,0.35);}
+.dark-band .section-title{color:white;}
+
+.pillars-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+
+.pillar{
+  padding:2.5rem 2rem 2.5rem 0;
+  border-right:1px solid rgba(255,255,255,0.08);
+}
+.pillar:last-child{border-right:none;padding-left:2rem;}
+.pillar:nth-child(2),.pillar:nth-child(3){padding-left:2rem;}
+
+.pillar h4{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+  font-weight:400;
+  font-style:italic;
+  color:white;
+  margin-bottom:0.7rem;
+  line-height:1.3;
+}
+
+.pillar p{
+  font-size:0.82rem;
+  color:rgba(255,255,255,0.4);
+  line-height:1.7;
+  font-weight:300;
+}
+
+/* CTA */
+.cta-section{
+  padding:8rem 4rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6rem;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+}
+
+.cta-label{
+  font-size:0.72rem;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--mid);
+  margin-bottom:1.5rem;
+}
+
+.cta-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:400;
+  letter-spacing:-0.02em;
+  color:var(--black);
+  line-height:1.15;
+}
+
+.cta-right p{
+  font-size:0.95rem;
+  color:var(--mid);
+  line-height:1.8;
+  font-weight:300;
+  margin-bottom:2rem;
+}
+
+.cta-note{
+  font-size:0.75rem;
+  color:var(--light);
+  font-weight:300;
+  margin-top:1rem;
+}
+
+/* FOOTER */
+footer{
+  padding:2rem 4rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:0.75rem;
+  color:var(--light);
+  font-weight:300;
+}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}
+
+@media(max-width:900px){
+  nav{padding:1.2rem 2rem;}
+  .hero{padding:8rem 2rem 5rem;}
+  .divider{margin:0 2rem;}
+  .how-section,.dark-band,.cta-section{padding:5rem 2rem;}
+  .how-grid{grid-template-columns:1fr;}
+  .how-card{border-right:none;border-bottom:1px solid var(--border);padding:2rem 0;}
+  .how-card:last-child{padding-left:0;}
+  .how-card:nth-child(2){padding-left:0;}
+  .pillars-grid{grid-template-columns:repeat(2,1fr);}
+  .pillar:nth-child(1),.pillar:nth-child(2){border-bottom:1px solid rgba(255,255,255,0.08);}
+  .pillar:nth-child(2){border-right:none;}
+  .pillar:nth-child(3){padding-left:0;border-right:1px solid rgba(255,255,255,0.08);}
+  .pillar:nth-child(4){padding-left:2rem;}
+  .cta-section{grid-template-columns:1fr;gap:2rem;}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">The Lunch Club</div>
+  <a href="survey.html" class="nav-cta">Apply for early access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-label">Now accepting early families</p>
+  <h1>Good food.<br><em>Great kids.</em></h1>
+  <p class="hero-sub">Wholesome, nutritionist-guided school lunches made fresh each week. No processed ingredients. No shortcuts. Just real food your kids will actually eat.</p>
+  <div class="hero-btns">
+    <a href="survey.html" class="btn-primary">Apply to join</a>
+    <a href="#how" class="btn-link">How it works</a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HOW IT WORKS -->
+<div id="how"></div>
+<section class="how-section">
+  <div class="section-header reveal">
+    <span class="section-label">How it works</span>
+    <h2 class="section-title">Three simple steps.</h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-card reveal d1">
+      <p class="how-num">One</p>
+      <h3>We plan your menu</h3>
+      <p>Our nutritionists design balanced weekly menus based on your child's age, preferences, and dietary needs — grounded in the latest evidence-based guidelines.</p>
+    </div>
+    <div class="how-card reveal d2">
+      <p class="how-num">Two</p>
+      <h3>We cook and pack it</h3>
+      <p>Every meal is made fresh using whole, unprocessed ingredients and packed in scientifically vetted, plastic-free packaging that's safe for little hands.</p>
+    </div>
+    <div class="how-card reveal d3">
+      <p class="how-num">Three</p>
+      <h3>It arrives, ready to go</h3>
+      <p>A full week of lunches at your door each Sunday. Grab, pack, and send them off — knowing exactly what's inside.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<div class="dark-band">
+  <div class="section-header reveal">
+    <span class="section-label">Our promise</span>
+    <h2 class="section-title">What we stand for.</h2>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar reveal d1">
+      <h4>Zero processed ingredients</h4>
+      <p>Whole foods only. If it has an ingredient list longer than five words, it doesn't belong in a lunchbox.</p>
+    </div>
+    <div class="pillar reveal d2">
+      <h4>Evidence-based nutrition</h4>
+      <p>Menus reviewed quarterly against the latest paediatric nutrition research — not trends, not guesswork.</p>
+    </div>
+    <div class="pillar reveal d1">
+      <h4>Safe, clean packaging</h4>
+      <p>No BPA, no microplastics. All packaging meets the most stringent current safety standards.</p>
+    </div>
+    <div class="pillar reveal d2">
+      <h4>Kid-tested, parent-trusted</h4>
+      <p>We won't serve a meal our own kids wouldn't eat. Nutrition and delicious are not opposites.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-left reveal">
+    <p class="cta-label">Join the waitlist</p>
+    <h2 class="cta-title">Ready to change<br>what lunch<br>looks like?</h2>
+  </div>
+  <div class="cta-right reveal d1">
+    <p>We're carefully selecting our first group of families. Complete a short survey to see if you qualify for founding membership — or we'll hold you a priority spot on the waitlist.</p>
+    <a href="survey.html" class="btn-primary">Take the 3-minute survey</a>
+    <p class="cta-note">Qualifying families receive 3 months at founding member pricing. Waitlist members get first access before we open publicly.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>The Lunch Club &mdash; Real food for real kids.</span>
+  <span>&copy; 2025</span>
+</footer>
+
+<script>
+const els=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(e=>{
+  e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});
+},{threshold:0.1});
+els.forEach(e=>obs.observe(e));
+</script>
+</body>
+</html>
