@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LunchBox Beta — Parent Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --deep: #1C1A16;
+    --charcoal: #2E2C28;
+    --olive: #5C6B3A;
+    --olive-light: #7A8C4E;
+    --amber: #D4894A;
+    --amber-light: #F0A96A;
+    --red: #C0392B;
+    --muted: #8A8680;
+    --border: #E0DAD0;
+    --card-bg: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--deep);
+    padding: 60px 24px 52px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 0%, rgba(212,137,74,.18) 0%, transparent 65%),
+                radial-gradient(ellipse at 20% 100%, rgba(92,107,58,.2) 0%, transparent 55%);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--amber);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 22px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    color: var(--cream);
+    line-height: 1.1;
+    position: relative;
+  }
+  .hero h1 em { color: var(--amber-light); font-style: italic; }
+  .hero p {
+    margin-top: 16px;
+    color: #B0ADA6;
+    font-size: 15px;
+    max-width: 480px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.65;
+    position: relative;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  /* ── STEP TRACKER ── */
+  .steps {
+    display: flex; gap: 6px; margin-bottom: 40px;
+  }
+  .step-dot {
+    height: 4px; border-radius: 2px; flex: 1;
+    background: var(--border);
+    transition: background .3s;
+  }
+  .step-dot.active { background: var(--olive); }
+  .step-dot.done { background: var(--olive-light); }
+
+  /* ── SECTION CARDS ── */
+  .section-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    display: none;
+    animation: fadeUp .35s ease both;
+  }
+  .section-card.visible { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    margin-bottom: 24px;
+    line-height: 1.25;
+  }
+
+  /* ── FORM FIELDS ── */
+  .field { margin-bottom: 22px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 7px;
+  }
+  .field label span.req { color: var(--amber); margin-left: 3px; }
+  .field label span.hint {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--deep);
+    background: var(--warm-white);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--olive);
+    box-shadow: 0 0 0 3px rgba(92,107,58,.12);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.55; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:480px) { .field-row { grid-template-columns: 1fr; } }
+
+  /* ── RADIO / CHECKBOX ── */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .options.cols { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+
+  .opt-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    font-size: 14px;
+    user-select: none;
+  }
+  .opt-card:hover { border-color: var(--olive-light); background: #F4F7EF; }
+  .opt-card input { display: none; }
+  .opt-card .dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .2s, background .2s;
+  }
+  .opt-card.checkbox .dot { border-radius: 4px; }
+  .opt-card input:checked ~ .dot,
+  .opt-card.selected .dot {
+    border-color: var(--olive);
+    background: var(--olive);
+  }
+  .opt-card.selected { border-color: var(--olive); background: #F4F7EF; }
+  .dot::after {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity .15s;
+  }
+  .opt-card.selected .dot::after { opacity: 1; }
+  .opt-card.checkbox.selected .dot::after {
+    width: 10px; height: 7px; border-radius: 0;
+    background: transparent;
+    border-left: 2px solid white; border-bottom: 2px solid white;
+    transform: rotate(-45deg) translate(1px,-1px);
+  }
+
+  .opt-card.cols-item { flex: 0 0 auto; }
+
+  /* ── BUTTONS ── */
+  .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
+  .btn {
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--olive);
+    color: white;
+    flex: 1;
+  }
+  .btn-primary:hover { background: #4A5830; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--charcoal); color: var(--charcoal); }
+
+  /* ── RESULT SCREEN ── */
+  #result-screen, #mid-result { display: none; }
+  .result-hero {
+    border-radius: 14px;
+    padding: 48px 32px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .result-hero.beta { background: linear-gradient(135deg, #EDF3E4, #D6E6C3); border: 1px solid #B8D49A; }
+  .result-hero.waitlist { background: linear-gradient(135deg, #FDF3EC, #F5DFC9); border: 1px solid #E8C4A0; }
+  .result-icon { font-size: 52px; margin-bottom: 16px; }
+  .result-hero h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .result-hero p { color: var(--charcoal); font-size: 15px; line-height: 1.6; max-width: 380px; margin: 0 auto; }
+
+  /* ── ADMIN DB VIEW ── */
+  #admin-panel { margin-top: 40px; }
+  .admin-toggle {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: all .2s;
+  }
+  .admin-toggle:hover { border-color: var(--charcoal); color: var(--charcoal); }
+
+  #db-view { margin-top: 20px; }
+  .db-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .db-tab {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .db-tab.active.beta-tab { background: var(--olive); color: white; border-color: var(--olive); }
+  .db-tab.active.waitlist-tab { background: var(--amber); color: white; border-color: var(--amber); }
+  .db-badge {
+    background: rgba(255,255,255,.3);
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 11px;
+  }
+
+  .db-table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 700px; }
+  th {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: .04em;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--charcoal);
+    vertical-align: top;
+    max-width: 160px;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #FAFAF7; }
+  .empty-db {
+    text-align: center; padding: 40px 20px;
+    color: var(--muted); font-size: 14px;
+  }
+
+  .field-error { border-color: var(--red) !important; }
+  .error-msg { color: var(--red); font-size: 12px; margin-top: 5px; }
+  .progress-text { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Beta Registration</div>
+  <h1>School Lunch<br><em>Made Easy.</em></h1>
+  <p>We're selecting our first group of Sydney families for a fresh take on weekday school lunches. Tell us a bit about your family.</p>
+</div>
+
+<div class="container">
+
+  <!-- Step dots -->
+  <div class="steps" id="step-dots"></div>
+
+  <!-- ═══ SURVEY FORM ═══ -->
+  <div id="survey-form">
+
+    <!-- SECTION 1: About You -->
+    <div class="section-card visible" data-section="1">
+      <div class="section-label">Step 1 of 3</div>
+      <div class="section-title">About you</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="e.g. Sarah">
+        </div>
+        <div class="field">
+          <label>Last name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="e.g. Thompson">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="you@email.com">
+        </div>
+        <div class="field">
+          <label>Phone <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="04xx xxx xxx">
+        </div>
+      </div>
+      <div class="field">
+        <label>Postcode <span class="req">*</span> <span class="hint">Must be Eastern Suburbs, Sydney</span></label>
+        <input type="text" id="postcode" placeholder="e.g. 2025" maxlength="4">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="nextSection(1)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Your Children -->
+    <div class="section-card" data-section="2">
+      <div class="section-label">Step 2 of 3</div>
+      <div class="section-title">Your children</div>
+
+      <div class="field">
+        <label>How many children are you enrolling? <span class="req">*</span></label>
+        <select id="childCount" onchange="renderChildAges()">
+          <option value="">— Select —</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </div>
+
+      <div id="child-ages"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="prevSection(2)">← Back</button>
+        <button class="btn btn-primary" onclick="nextSection(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Diet & Allergies -->
+    <div class="section-card" data-section="3">
+      <div class="section-label">Step 3 of 3</div>
+      <div class="section-title">Diet & allergies</div>
+
+      <div class="field">
+        <label>Does your child have any food allergies? <span class="req">*</span></label>
+        <div class="options" id="allergy-options">
+          <label class="opt-card" onclick="toggleOpt(this,'radio','allergy'); toggleAllergyDetail(false)">
+            <input type="radio" name="allergy" value="none">
+            <div class="dot"></div> No allergies
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','allergy'); toggleAllergyDetail(true)">
+            <input type="radio" name="allergy" value="yes">
+            <div class="dot"></div> Yes, my child has food allergies
+          </label>
+        </div>
+      </div>
+
+      <div class="field" id="allergy-detail" style="display:none; margin-top:-10px;">
+        <label>Please describe the allergy/allergies <span class="req">*</span></label>
+        <textarea id="allergyDetail" placeholder="e.g. severe peanut allergy, mild dairy intolerance…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Do any of your children follow a specific diet or have food restrictions? <span class="req">*</span> <span class="hint">Select all that apply</span></label>
+        <div class="options" id="diet-options">
+          <label class="opt-card checkbox" onclick="toggleDiet(this, event)">
+            <input type="checkbox" name="diet" value="none">
+            <div class="dot"></div> No restrictions — they eat everything
+          </label>
+          <label class="opt-card checkbox" onclick="toggleDiet(this, event)">
+            <input type="checkbox" name="diet" value="halal">
+            <div class="dot"></div> Halal
+          </label>
+          <label class="opt-card checkbox" onclick="toggleDiet(this, event)">
+            <input type="checkbox" name="diet" value="kosher">
+            <div class="dot"></div> Kosher
+          </label>
+          <label class="opt-card checkbox" onclick="toggleDiet(this, event)">
+            <input type="checkbox" name="diet" value="vegetarian">
+            <div class="dot"></div> Vegetarian
+          </label>
+          <label class="opt-card checkbox" onclick="toggleDiet(this, event)">
+            <input type="checkbox" name="diet" value="vegan">
+            <div class="dot"></div> Vegan
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What do you usually pack your child for school lunch? <span class="req">*</span></label>
+        <textarea id="usuallyPacksQ3" placeholder="e.g. sandwich with vegemite, an apple, a muesli bar and a bottle of water…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Roughly how much do you spend on school lunch per day? <span class="req">*</span></label>
+        <div style="position:relative; max-width:180px;">
+          <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); pointer-events:none;">$</span>
+          <input type="number" id="dailySpend" min="0" max="100" step="0.5" placeholder="0.00" style="padding-left:28px;">
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="prevSection(3)">← Back</button>
+        <button class="btn btn-primary" onclick="runEligibilityCheck()">Check my eligibility →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 4 (beta only): Lunch habits -->
+    <div class="section-card" data-section="4">
+      <div class="section-label">Step 1 of 2 — Just a couple more things</div>
+      <div class="section-title">Current lunch habits</div>
+
+      <div class="field">
+        <label>How many times a week does your child get canteen? <span class="req">*</span></label>
+        <div class="options" id="canteen-options">
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="0">
+            <div class="dot"></div> Never — always packed lunch
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="1">
+            <div class="dot"></div> Once a week
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="2">
+            <div class="dot"></div> Twice a week
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="3">
+            <div class="dot"></div> 3 times a week
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="4">
+            <div class="dot"></div> 4 times a week
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','canteen')">
+            <input type="radio" name="canteen" value="5">
+            <div class="dot"></div> Every day
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What foods does your child actually enjoy eating? <span class="req">*</span></label>
+        <textarea id="childLikes" placeholder="e.g. pasta, chicken wraps, fruit, cheese and crackers…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="backToMidResult()">← Back</button>
+        <button class="btn btn-primary" onclick="nextSection(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 5 (beta only): Budget -->
+    <div class="section-card" data-section="5">
+      <div class="section-label">Step 2 of 2 — Almost done</div>
+      <div class="section-title">Lunch budget</div>
+
+      <div class="field">
+        <label>Roughly how much do you spend on school lunches per week? <span class="req">*</span></label>
+        <div class="options" id="budget-options">
+          <label class="opt-card" onclick="toggleOpt(this,'radio','budget')">
+            <input type="radio" name="budget" value="under20">
+            <div class="dot"></div> Under $20
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','budget')">
+            <input type="radio" name="budget" value="20-40">
+            <div class="dot"></div> $20 – $40
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','budget')">
+            <input type="radio" name="budget" value="40-60">
+            <div class="dot"></div> $40 – $60
+          </label>
+          <label class="opt-card" onclick="toggleOpt(this,'radio','budget')">
+            <input type="radio" name="budget" value="over60">
+            <div class="dot"></div> Over $60
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Anything else you'd like us to know? <span class="hint">Optional</span></label>
+        <textarea id="extraNotes" placeholder="Any extra context, preferences, or questions for us…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="prevSection(5)">← Back</button>
+        <button class="btn btn-primary" onclick="submitSurvey()">Submit application ✓</button>
+      </div>
+    </div>
+
+  </div><!-- /survey-form -->
+
+  <!-- ═══ MID RESULT (shown after step 3, before extra beta questions) ═══ -->
+  <div id="mid-result" style="display:none;">
+    <div class="result-hero" id="mid-result-hero">
+      <div class="result-icon" id="mid-result-icon"></div>
+      <h2 id="mid-result-title"></h2>
+      <p id="mid-result-body"></p>
+    </div>
+    <div id="mid-result-cta" style="display:none; margin-top:16px;">
+      <button class="btn btn-primary" style="width:100%; font-size:15px;" onclick="startBetaQuestions()">
+        Tell us a bit more →
+      </button>
+      <p style="text-align:center; margin-top:12px; font-size:12px; color:var(--muted);">Just 2 quick questions to help us plan your meals</p>
+    </div>
+  </div>
+
+  <!-- ═══ FINAL RESULT SCREEN ═══ -->
+  <div id="result-screen" style="display:none;">
+    <div class="result-hero" id="result-hero">
+      <div class="result-icon" id="result-icon"></div>
+      <h2 id="result-title"></h2>
+      <p id="result-body"></p>
+    </div>
+
+    <div id="admin-panel">
+      <button class="admin-toggle" onclick="toggleDB()">🗄 View submission databases</button>
+      <div id="db-view" style="display:none; margin-top:20px;">
+        <div class="db-tabs">
+          <button class="db-tab beta-tab active" onclick="showDB('beta')">
+            ✅ Beta Group <span class="db-badge" id="beta-count">0</span>
+          </button>
+          <button class="db-tab waitlist-tab" onclick="showDB('waitlist')">
+            ⏳ Waitlist <span class="db-badge" id="waitlist-count">0</span>
+          </button>
+        </div>
+        <div class="db-table-wrap">
+          <div id="db-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ── DATA STORES ──
+const betaDB = [];
+const waitlistDB = [];
+
+const EASTERN_POSTCODES = new Set([
+  '2010','2011','2015','2016','2017','2018','2019',
+  '2020','2021','2022','2023','2024','2025','2026',
+  '2027','2028','2029','2030','2031','2032','2033',
+  '2034','2035','2036','2037','2045'
+]);
+
+const RESTRICTED_DIETS = new Set(['halal','kosher','vegetarian','vegan']);
+
+// Phase 1 = qualification (3 steps), Phase 2 = beta extra (2 steps)
+let currentSection = 1;
+let phase = 1; // 1 = qualification, 2 = beta extra questions
+let pendingEntry = null; // built after step 3, completed after step 5
+
+// ── STEP DOTS ──
+function renderDots() {
+  const wrap = document.getElementById('step-dots');
+  wrap.innerHTML = '';
+  const total = phase === 1 ? 3 : 2;
+  const current = phase === 1 ? currentSection : currentSection - 3;
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+    wrap.appendChild(d);
+  }
+}
+renderDots();
+
+// ── CHILD AGE FIELDS ──
+function renderChildAges() {
+  const n = parseInt(document.getElementById('childCount').value) || 0;
+  const wrap = document.getElementById('child-ages');
+  wrap.innerHTML = '';
+  const ageOptions = [
+    '<option value="">— Select age —</option>',
+    '<option value="under5">Under 5 years old</option>',
+    ...[5,6,7,8,9,10,11,12,13,14,15,16].map(a => `<option value="${a}">${a} years old</option>`),
+    '<option value="17+">17 or older</option>'
+  ].join('');
+  for (let i = 1; i <= Math.min(n, 4); i++) {
+    wrap.innerHTML += `
+      <div class="field">
+        <label>Child ${i} — age <span class="req">*</span></label>
+        <select id="childAge${i}">${ageOptions}</select>
+      </div>`;
+  }
+}
+
+// ── ALLERGY DETAIL TOGGLE ──
+function toggleAllergyDetail(show) {
+  document.getElementById('allergy-detail').style.display = show ? 'block' : 'none';
+  if (!show) document.getElementById('allergyDetail').value = '';
+}
+
+// ── DIET CHECKBOX TOGGLE ──
+function toggleDiet(el, event) {
+  event.preventDefault();
+  const inp = el.querySelector('input');
+  const val = inp.value;
+  const allCards = document.querySelectorAll('#diet-options .opt-card');
+
+  if (val === 'none') {
+    const wasSelected = el.classList.contains('selected');
+    allCards.forEach(c => { c.classList.remove('selected'); c.querySelector('input').checked = false; });
+    if (!wasSelected) { el.classList.add('selected'); inp.checked = true; }
+  } else {
+    const noneCard = document.querySelector('#diet-options .opt-card input[value="none"]')?.closest('.opt-card');
+    if (noneCard) { noneCard.classList.remove('selected'); noneCard.querySelector('input').checked = false; }
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected'); inp.checked = false;
+    } else {
+      el.classList.add('selected'); inp.checked = true;
+    }
+  }
+}
+
+// ── OPTION TOGGLE ──
+function toggleOpt(el, type, group) {
+  if (type === 'radio') {
+    document.querySelectorAll(`#${group}-options .opt-card, #${group}-options .opt-card`).forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  } else {
+    // checkbox — handle "none" mutual exclusion
+    const val = el.querySelector('input').value;
+    if (val === 'none') {
+      document.querySelectorAll(`[name="${group}"]`).forEach(inp => {
+        inp.checked = false;
+        inp.closest('.opt-card').classList.remove('selected');
+      });
+    } else {
+      const noneCard = document.querySelector(`[name="${group}"][value="none"]`);
+      if (noneCard) { noneCard.checked = false; noneCard.closest('.opt-card').classList.remove('selected'); }
+    }
+    el.classList.toggle('selected');
+    el.querySelector('input').checked = el.classList.contains('selected');
+  }
+}
+
+function getRadioVal(name) {
+  const el = document.querySelector(`[name="${name}"]:checked`);
+  return el ? el.value : null;
+}
+
+function getCheckboxVals(name) {
+  return [...document.querySelectorAll(`[name="${name}"]:checked`)].map(e => e.value);
+}
+
+// ── VALIDATION ──
+function validateSection(n) {
+  let ok = true;
+  const mark = (id, msg) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('field-error');
+      let em = el.parentNode.querySelector('.error-msg');
+      if (!em) { em = document.createElement('div'); em.className = 'error-msg'; el.parentNode.appendChild(em); }
+      em.textContent = msg;
+    }
+    ok = false;
+  };
+  // clear previous
+  document.querySelectorAll('.field-error').forEach(e => e.classList.remove('field-error'));
+  document.querySelectorAll('.error-msg').forEach(e => e.remove());
+
+  if (n === 1) {
+    if (!document.getElementById('firstName').value.trim()) mark('firstName','Please enter your first name');
+    if (!document.getElementById('lastName').value.trim()) mark('lastName','Please enter your last name');
+    const email = document.getElementById('email').value.trim();
+    if (!email || !/\S+@\S+\.\S+/.test(email)) mark('email','Please enter a valid email');
+    if (!document.getElementById('phone').value.trim()) mark('phone','Please enter your phone');
+    const pc = document.getElementById('postcode').value.trim();
+    if (!pc || !/^\d{4}$/.test(pc)) mark('postcode','Please enter a valid 4-digit postcode');
+  }
+
+  if (n === 2) {
+    const cnt = document.getElementById('childCount').value;
+    if (!cnt) { alert('Please select how many children.'); ok = false; }
+    else {
+      for (let i = 1; i <= Math.min(parseInt(cnt),4); i++) {
+        const el = document.getElementById(`childAge${i}`);
+        if (!el || !el.value) { if(el) el.classList.add('field-error'); ok = false; }
+      }
+      if (!ok) alert('Please select an age for each child.');
+    }
+  }
+
+  if (n === 3) {
+    if (!getRadioVal('allergy')) { alert('Please answer the allergy question.'); ok = false; }
+    if (ok && getRadioVal('allergy') === 'yes' && !document.getElementById('allergyDetail').value.trim()) {
+      mark('allergyDetail', 'Please describe the allergy/allergies'); ok = false;
+    }
+    if (ok && getCheckboxVals('diet').length === 0) { alert('Please select a dietary option.'); ok = false; }
+    if (ok && !document.getElementById('usuallyPacksQ3').value.trim()) mark('usuallyPacksQ3', 'Please tell us what you usually pack');
+    const ds = document.getElementById('dailySpend').value;
+    if (ok && (ds === '' || isNaN(ds) || parseFloat(ds) < 0)) mark('dailySpend', 'Please enter a daily spend amount');
+  }
+
+  if (n === 4) {
+    if (!document.getElementById('childLikes').value.trim()) mark('childLikes','Please tell us what your child likes to eat');
+    if (!getRadioVal('canteen')) { alert('Please select how often your child gets canteen.'); ok = false; }
+  }
+
+  if (n === 5) {
+    if (!getRadioVal('budget')) { alert('Please select a weekly budget range.'); ok = false; }
+  }
+
+  return ok;
+}
+
+// ── NAVIGATION ──
+function showSection(n) {
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('visible'));
+  const card = document.querySelector(`[data-section="${n}"]`);
+  if (card) { card.classList.add('visible'); card.style.animation = 'none'; card.offsetHeight; card.style.animation = ''; }
+  currentSection = n;
+  renderDots();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function nextSection(n) {
+  if (!validateSection(n)) return;
+  showSection(n + 1);
+}
+function prevSection(n) {
+  if (n > 1) showSection(n - 1);
+}
+
+function backToMidResult() {
+  document.getElementById('survey-form').style.display = 'none';
+  document.getElementById('mid-result').style.display = 'block';
+  phase = 1;
+  currentSection = 3;
+  renderDots();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── ELIGIBILITY LOGIC ──
+function checkEligibility() {
+  const reasons = [];
+  const pc = document.getElementById('postcode').value.trim();
+  if (!EASTERN_POSTCODES.has(pc)) reasons.push(`postcode ${pc} is outside the Eastern Suburbs`);
+
+  const cnt = parseInt(document.getElementById('childCount').value) || 0;
+  const ages = [];
+  for (let i = 1; i <= Math.min(cnt, 4); i++) {
+    const v = document.getElementById(`childAge${i}`)?.value;
+    if (v) ages.push(v);
+  }
+  const hasValidAge = ages.some(a => a === '10' || a === '11' || a === '12');
+  if (!hasValidAge) reasons.push('no children aged 10–12');
+
+  if (getRadioVal('allergy') === 'yes') reasons.push('food allergies present');
+
+  const diets = getCheckboxVals('diet');
+  const restricted = diets.filter(d => RESTRICTED_DIETS.has(d));
+  if (restricted.length > 0) reasons.push(`dietary requirements: ${restricted.join(', ')}`);
+
+  return { eligible: reasons.length === 0, reasons };
+}
+
+// ── ELIGIBILITY CHECK (runs after step 3) ──
+function runEligibilityCheck() {
+  if (!validateSection(3)) return;
+
+  const { eligible, reasons } = checkEligibility();
+
+  const cnt = parseInt(document.getElementById('childCount').value) || 0;
+  const ages = [];
+  for (let i = 1; i <= Math.min(cnt, 4); i++) {
+    const v = document.getElementById(`childAge${i}`)?.value;
+    if (v) ages.push(v);
+  }
+
+  // Build partial entry — extra fields filled in later for beta
+  pendingEntry = {
+    submittedAt: new Date().toLocaleString('en-AU'),
+    name: `${document.getElementById('firstName').value.trim()} ${document.getElementById('lastName').value.trim()}`,
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    postcode: document.getElementById('postcode').value.trim(),
+    childCount: cnt,
+    childAges: ages.join(', '),
+    allergy: getRadioVal('allergy') === 'yes' ? `Yes — ${document.getElementById('allergyDetail').value.trim()}` : 'None',
+    diet: getCheckboxVals('diet').join(', ') || '—',
+    usuallyPacks: document.getElementById('usuallyPacksQ3').value.trim(),
+    dailySpend: `$${parseFloat(document.getElementById('dailySpend').value).toFixed(2)}`,
+    childLikes: '—',
+    weeklyBudget: '—',
+    notes: '—',
+    status: eligible ? 'BETA' : 'WAITLIST',
+    ineligibleReasons: eligible ? '—' : reasons.join('; '),
+  };
+
+  // Hide survey form
+  document.getElementById('survey-form').style.display = 'none';
+  const mid = document.getElementById('mid-result');
+  mid.style.display = 'block';
+
+  const hero = document.getElementById('mid-result-hero');
+  document.getElementById('mid-result-icon').textContent = eligible ? '🎉' : '⏳';
+  document.getElementById('mid-result-title').textContent = eligible
+    ? "Great news — you're eligible!"
+    : "You're on the waitlist";
+  document.getElementById('mid-result-body').textContent = eligible
+    ? "You meet the criteria for our first round. Before we lock in your spot, just two quick questions to help us plan your child's meals."
+    : `Thanks for applying! We've added you to our waitlist and will be in touch when spots open up.${reasons.length > 0 ? ' (' + reasons[0] + ')' : ''}`;
+  hero.className = `result-hero ${eligible ? 'beta' : 'waitlist'}`;
+
+  if (eligible) {
+    document.getElementById('mid-result-cta').style.display = 'block';
+  } else {
+    // Waitlist: save immediately and show final DB
+    waitlistDB.push(pendingEntry);
+    updateDBCounts();
+  }
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── BETA EXTRA QUESTIONS ──
+function startBetaQuestions() {
+  phase = 2;
+  document.getElementById('mid-result').style.display = 'none';
+  document.getElementById('survey-form').style.display = 'block';
+  showSection(4);
+}
+
+// ── FINAL SUBMIT (beta only, after step 5) ──
+function submitSurvey() {
+  if (!validateSection(5)) return;
+
+  // Complete the pending entry with the extra data
+  pendingEntry.canteenFrequency = getRadioVal('canteen') === '0' ? 'Never' : `${getRadioVal('canteen')}x per week`;
+  pendingEntry.childLikes = document.getElementById('childLikes').value.trim();
+  pendingEntry.weeklyBudget = getRadioVal('budget');
+  pendingEntry.notes = document.getElementById('extraNotes').value.trim() || '—';
+
+  betaDB.push(pendingEntry);
+
+  document.getElementById('survey-form').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+
+  document.getElementById('result-icon').textContent = '✅';
+  document.getElementById('result-title').textContent = "You're confirmed in the beta group!";
+  document.getElementById('result-body').textContent = `All done! We'll be in touch at ${pendingEntry.email} with everything you need to know before your first delivery.`;
+  document.getElementById('result-hero').className = 'result-hero beta';
+
+  updateDBCounts();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── DB DISPLAY ──
+let currentDB = 'beta';
+
+function toggleDB() {
+  const panel = document.getElementById('db-view');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  if (panel.style.display === 'block') showDB(currentDB);
+}
+
+function showDB(which) {
+  currentDB = which;
+  document.querySelectorAll('.db-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.${which}-tab`).classList.add('active');
+  const data = which === 'beta' ? betaDB : waitlistDB;
+  renderTable(data);
+}
+
+function updateDBCounts() {
+  document.getElementById('beta-count').textContent = betaDB.length;
+  document.getElementById('waitlist-count').textContent = waitlistDB.length;
+}
+
+function renderTable(data) {
+  const wrap = document.getElementById('db-content');
+  if (data.length === 0) {
+    wrap.innerHTML = '<div class="empty-db">No entries yet.</div>';
+    return;
+  }
+  const cols = ['submittedAt','name','email','phone','postcode','childCount','childAges','allergy','diet','usuallyPacks','dailySpend','canteenFrequency','childLikes','weeklyBudget','notes','ineligibleReasons'];
+  const labels = ['Submitted','Name','Email','Phone','Postcode','# Children','Ages','Allergies','Diet','Usually Packs','Daily Spend','Canteen / Week','Child Likes','Weekly Budget','Notes','Ineligible Reasons'];
+  wrap.innerHTML = `
+    <table>
+      <thead><tr>${labels.map(l=>`<th>${l}</th>`).join('')}</tr></thead>
+      <tbody>
+        ${data.map(row=>`<tr>${cols.map(c=>`<td>${row[c]??'—'}</td>`).join('')}</tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+</script>
+
+</body>
+</html>

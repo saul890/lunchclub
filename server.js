@@ -44,21 +44,7 @@ async function appendToGoogleSheet(entry) {
 
 // ─────────────────────────────────────────────
 // NOTION ADAPTER
-// Setup steps:
-//  1. Go to notion.so/my-integrations → create an integration → copy the token
-//  2. Create a Notion database with these properties:
-//     Name (title), Email (email), Phone (phone), Postcode (text),
-//     Status (select: Beta / Waitlist), Children (number), Ages (text),
-//     Allergies (text), Diet (text), Usually Packs (text), Daily Spend (text),
-//     Canteen Frequency (text), Child Likes (text), Weekly Budget (text),
-//     Notes (text), Ineligible Reasons (text), Submitted At (date)
-//  3. Open the database page → Share → Invite your integration
-//  4. Copy the database ID from the URL (the part after notion.so/ before the ?)
-//  5. Set NOTION_TOKEN and NOTION_DATABASE_ID in .env
-//  6. Run: npm install @notionhq/client
-//  7. Uncomment the block below
 // ─────────────────────────────────────────────
-/*
 const { Client } = require('@notionhq/client');
 
 async function addToNotion(entry) {
@@ -86,7 +72,6 @@ async function addToNotion(entry) {
     },
   });
 }
-*/
 
 // ─────────────────────────────────────────────
 // SUBMISSION ENDPOINT
@@ -98,9 +83,7 @@ app.post('/api/submit', async (req, res) => {
   console.log(`  Name: ${entry.name}  |  Email: ${entry.email}  |  Postcode: ${entry.postcode}`);
 
   try {
-    // Uncomment whichever adapter you configured above:
-    // await appendToGoogleSheet(entry);
-    // await addToNotion(entry);
+    await addToNotion(entry);
 
     res.json({ ok: true });
   } catch (err) {
