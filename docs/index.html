@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lunch Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=recoleta@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-site">
+
+<!-- NAV -->
+<nav>
+  <div></div>
+  <div class="nav-logo">lunch club</div>
+  <a href="#" class="nav-cta">Apply for early access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="hero.png" alt="Fresh meal prep bowls">
+  <div class="hero-content">
+    <h1>Real food.<br><em>Growing Futures.</em></h1>
+    <p class="hero-sub">Australia’s first school lunch meal service. Zero processed ingredients</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Apply to join</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PILLARS -->
+<div class="dark-band">
+  <div class="pillars-grid">
+    <div class="pillar reveal d1">
+      <h3>Zero processed ingredients</h3>
+    </div>
+    <div class="pillar reveal d2">
+      <h3>Evidence-based nutrition</h3>
+    </div>
+    <div class="pillar reveal d1">
+      <h3>Safe, clean packaging</h3>
+    </div>
+    <div class="pillar reveal d2">
+      <h3>Kid-tested, parent-trusted</h3>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how"></div>
+<section class="how-section">
+  <div class="how-grid">
+    <div class="how-card reveal d1">
+      <p class="tag how-num">One</p>
+      <h3>We plan your menu</h3>
+      <p>Our nutritionists design balanced weekly menus grounded in the latest evidence-based guidelines.</p>
+    </div>
+    <div class="how-card reveal d2">
+      <p class="tag how-num">Two</p>
+      <h3>We cook and pack it</h3>
+      <p>Every meal is made fresh using whole, unprocessed ingredients and packed in scientifically vetted, plastic-free packaging that's safe for little hands.</p>
+    </div>
+    <div class="how-card reveal d3">
+      <p class="tag how-num">Three</p>
+      <h3>It arrives, ready to go</h3>
+      <p>A full week of lunches at your door each Sunday. Grab, pack, and send them off — knowing exactly what's inside.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-left reveal">
+    <p class="tag cta-label">Join the waitlist</p>
+    <h2 class="cta-title">Ready to change<br>what lunch<br>looks like?</h2>
+  </div>
+  <div class="cta-right reveal d1">
+    <p>We're carefully selecting our first group of families. Complete a short survey to see if you qualify for membership — or we'll hold you a priority spot on the waitlist.</p>
+    <a href="#" class="btn-primary">Take the 3-minute survey</a>
+    <p class="cta-note">Qualifying families receive 3 months at founding member pricing. Waitlist members get first access before we open publicly.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>The Lunch Club &mdash; Real food.</span>
+  <span>&copy; 2026</span>
+</footer>
+
+<script>
+const els=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(e=>{
+  e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}});
+},{threshold:0.1});
+els.forEach(e=>obs.observe(e));
+</script>
+</body>
+</html>
