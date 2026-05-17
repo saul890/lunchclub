@@ -215,7 +215,7 @@ body.page-site .section-header {
 
 /* ── PILLARS BAND ── */
 body.page-site .dark-band { background: #FFFFFF; padding: 4rem 4rem; }
-body.page-site .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+body.page-site .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 body.page-site .pillar { padding: 0 2rem 0 0; border-right: 1px solid var(--border); text-align: center; }
 body.page-site .pillar:last-child { border-right: none; padding-right: 0; padding-left: 2rem; }
 body.page-site .pillar:nth-child(2), body.page-site .pillar:nth-child(3) { padding-left: 2rem; }
