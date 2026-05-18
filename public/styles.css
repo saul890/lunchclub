@@ -273,11 +273,11 @@ body.page-site footer {
 @media (max-width: 768px) {
   body.page-site nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     padding: 1rem 1.5rem;
   }
   body.page-site nav > div:first-child { display: none; }
-  body.page-site .nav-cta { display: none; }
 
   /* Stacked hero: image on top, text below */
   body.page-site .hero {
