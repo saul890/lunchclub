@@ -189,6 +189,9 @@ body.page-site .btn-primary {
 }
 body.page-site .btn-primary:hover { opacity: 0.85; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 
+/* ── MOBILE HERO IMAGE ── */
+body.page-site .hero-mobile-img { display: none; }
+
 /* ── DIVIDER ── */
 body.page-site .divider { display: none; }
 
@@ -285,6 +288,11 @@ body.page-site footer {
     overflow: visible;
   }
   body.page-site .hero-bg { display: none; }
+  body.page-site .hero-mobile-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   body.page-site .hero-content {
     position: static;
     top: auto;
