@@ -325,7 +325,6 @@ body.page-site footer {
   body.page-site .how-card:nth-child(3) .how-num::before { content: '03'; }
   body.page-site .cta-section { padding: 2rem 1.5rem; }
   body.page-site .cta-label { margin-bottom: 0.75rem; }
-  body.page-site .cta-right .btn-primary { display: none; }
 }
 
 @media (max-width: 480px) {
