@@ -318,7 +318,11 @@ body.page-site footer {
   body.page-site .hero-sub { font-size: 1rem; margin: 0 0 2rem; max-width: 100%; }
   body.page-site .btn-primary { font-size: 0.95rem; padding: 1.1rem 2.5rem; min-height: 52px; }
   body.page-site .dark-band { padding: 1.5rem; }
-  body.page-site .pillar-tag { display: inline-block; margin-bottom: 0.6rem; }
+  body.page-site .how-num { font-size: 0; letter-spacing: 0; padding: 0; }
+  body.page-site .how-num::before { font-size: 0.62rem; letter-spacing: 0.1em; padding: 3px 10px; }
+  body.page-site .how-card:nth-child(1) .how-num::before { content: '01'; }
+  body.page-site .how-card:nth-child(2) .how-num::before { content: '02'; }
+  body.page-site .how-card:nth-child(3) .how-num::before { content: '03'; }
   body.page-site .cta-section { padding: 2rem 1.5rem; }
   body.page-site .cta-label { margin-bottom: 0.75rem; }
   body.page-site .cta-right .btn-primary { display: none; }
